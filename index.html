@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lunch Budget Tracker</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 25px;
+  font-family: Arial, sans-serif;
+  background: #f7f4ee;
+  color: #263238;
+}
+
+.tracker {
+  max-width: 620px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+}
+
+h1 {
+  margin-bottom: 8px;
+}
+
+.intro {
+  color: #666;
+  line-height: 1.5;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 18px;
+  margin-bottom: 7px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-size: 18px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 22px;
+  border: none;
+  border-radius: 14px;
+  background: #6f8f6d;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.results {
+  margin-top: 30px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.result {
+  background: #f3f6f1;
+  padding: 18px;
+  margin-top: 10px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.result span {
+  display: block;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.result strong {
+  font-size: 24px;
+}
+
+.message {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f7f4ee;
+  border-radius: 12px;
+}
+
+.tip {
+  margin-top: 20px;
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="tracker">
+
+<h1>🍱 Track Your Lunch Spending</h1>
+
+<p class="intro">
+Enter your spending below to see how much you spend on lunch each week and month.
+</p>
+
+<label>Daily lunch spending (RM)</label>
+
+<input 
+  type="number" 
+  id="daily" 
+  placeholder="Example: 8.00"
+  min="0"
+>
+
+<label>Days you buy lunch each week</label>
+
+<input 
+  type="number" 
+  id="days" 
+  placeholder="Example: 5"
+  min="1"
+  max="7"
+>
+
+<label>Weekly lunch budget (RM)</label>
+
+<input 
+  type="number" 
+  id="budget" 
+  placeholder="Example: 50.00"
+  min="0"
+>
+
+<button onclick="calculate()">
+CALCULATE MY SPENDING
+</button>
+
+<div class="results">
+
+<h2>📊 Your Results</h2>
+
+<div class="result">
+<span>Weekly spending</span>
+<strong id="weekly">RM 0.00</strong>
+</div>
+
+<div class="result">
+<span>Monthly estimate</span>
+<strong id="monthly">RM 0.00</strong>
+</div>
+
+<div class="result">
+<span>Remaining budget</span>
+<strong id="remaining">RM 0.00</strong>
+</div>
+
+<div class="message" id="message">
+Enter your numbers and click the button to see your results.
+</div>
+
+<p class="tip">
+💡 Tip: Tracking your lunch spending can help you understand where your money goes.
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+function calculate() {
+
+  let daily = Number(document.getElementById("daily").value);
+
+  let days = Number(document.getElementById("days").value);
+
+  let budget = Number(document.getElementById("budget").value);
+
+  if (daily < 0 || days < 1 || days > 7 || budget < 0 || !daily) {
+
+    document.getElementById("message").textContent =
+    "Please enter valid numbers.";
+
+    return;
+  }
+
+  let weekly = daily * days;
+
+  let monthly = weekly * 4;
+
+  let remaining = budget - weekly;
+
+  document.getElementById("weekly").textContent =
+  "RM " + weekly.toFixed(2);
+
+  document.getElementById("monthly").textContent =
+  "RM " + monthly.toFixed(2);
+
+  if (remaining >= 0) {
+
+    document.getElementById("remaining").textContent =
+    "RM " + remaining.toFixed(2);
+
+    document.getElementById("message").textContent =
+    "🟢 You are RM " + remaining.toFixed(2) +
+    " under your weekly budget. Keep tracking your spending!";
+
+  } else {
+
+    document.getElementById("remaining").textContent =
+    "RM " + Math.abs(remaining).toFixed(2) + " over";
+
+    document.getElementById("message").textContent =
+    "🟠 You are RM " + Math.abs(remaining).toFixed(2) +
+    " over your weekly budget.";
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
